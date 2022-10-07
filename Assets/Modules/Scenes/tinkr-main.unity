@@ -123,7 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
-<<<<<<< HEAD
 --- !u!1 &133898880
 GameObject:
   m_ObjectHideFlags: 0
@@ -225,7 +224,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0.99}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
-=======
 --- !u!1001 &43527372
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -283,7 +281,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c83c81b78a7a4ff4a8dfe9aabc40faba, type: 3}
->>>>>>> feature/xr-tinkr#6-add-rudimentary-user-input
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
