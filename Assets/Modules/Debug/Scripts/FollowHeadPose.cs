@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Xrtinkr.Debug
@@ -5,16 +6,30 @@ namespace Xrtinkr.Debug
     public class FollowHeadPose : MonoBehaviour
     {
         [SerializeField]
-        private Transform head;
+        private Transform _head;
 
+        private Vector3 _yOffset;
+
+        private void Start()
+        {
+            _yOffset = new Vector3(0, -0.5f, 0);
+        }
         void Update()
         {
-            Vector3 verticalOffset = new Vector3(0, -0.5f, 0);
-            Vector3 positionOffsetFromHead = head.position + head.transform.forward + verticalOffset;
-            transform.position = Vector3.Lerp(transform.position, positionOffsetFromHead, 0.08f);
-            Vector3 fromHeadToHere = transform.position - head.position;
-            transform.forward = Vector3.Lerp(transform.forward, fromHeadToHere, 0.08f);
+            UpdatePosition();
+            UpdateRotation();
         }
+        private void UpdatePosition()
+        {
+            Vector3 _totalPositionOffset = _head.position + _head.transform.forward + _yOffset;
+            transform.position = Vector3.Lerp(transform.position, _totalPositionOffset, 0.08f);
+        }
+        private void UpdateRotation()
+        {
+            Vector3 _headToHereDirection = transform.position - _head.transform.position;
+            transform.forward = Vector3.Lerp(transform.forward, _headToHereDirection, 0.08f);
+        }
+
     }
 }
 
