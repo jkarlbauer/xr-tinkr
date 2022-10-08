@@ -1,16 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace Xrtinkr.UI.Debug
+namespace Xrtinkr.Debug
 {
     public class FollowHeadPose : MonoBehaviour
     {
-
         [SerializeField]
         private Transform head;
 
-  
         void Update()
         {
             Vector3 verticalOffset = new Vector3(0, -0.5f, 0);
