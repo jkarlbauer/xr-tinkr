@@ -11,7 +11,7 @@ namespace Xrtinkr.Debug
 
         private Queue<string> _logQueue;
 
-        private const int MAX_LOG_MESSAGES = 20;
+        private const int MAX_LOG_MESSAGES = 10;
 
         private void OnEnable()
         {

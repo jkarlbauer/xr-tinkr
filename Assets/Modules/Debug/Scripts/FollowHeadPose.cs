@@ -8,12 +8,9 @@ namespace Xrtinkr.Debug
         [SerializeField]
         private Transform _head;
 
-        private Vector3 _yOffset;
+        [SerializeField]
+        private float _yOffset;
 
-        private void Start()
-        {
-            _yOffset = new Vector3(0, -0.5f, 0);
-        }
         void Update()
         {
             UpdatePosition();
@@ -21,7 +18,7 @@ namespace Xrtinkr.Debug
         }
         private void UpdatePosition()
         {
-            Vector3 _totalPositionOffset = _head.position + _head.transform.forward + _yOffset;
+            Vector3 _totalPositionOffset = _head.position + _head.transform.forward + new Vector3(0, _yOffset, 0);
             transform.position = Vector3.Lerp(transform.position, _totalPositionOffset, 0.08f);
         }
         private void UpdateRotation()
