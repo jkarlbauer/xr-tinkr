@@ -1,16 +1,16 @@
 
 using UnityEngine;
 using Siccity.GLTFUtility;
-using System;
 
 public class LoadGltfData : MonoBehaviour
 {
     //TODO make async
     //TODO register callbacks
+    private string _dataPath = "sophies_tiny_house.glb";
 
     private void OnEnable()
     {
-        ImportGLTF("sophies_tiny_house.glb");
+        ImportGLTF(_dataPath);
     }
 
     void ImportGLTF(string filepath)
