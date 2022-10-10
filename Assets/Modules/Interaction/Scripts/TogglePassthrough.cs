@@ -8,18 +8,16 @@ namespace Xrtinkr.Interaction
     [RequireComponent(typeof(IInteractor))]
     public class TogglePassthrough : MonoBehaviour
     {
-        private IInteractor interactor;
+        [SerializeField]
+        private OVRPassthroughLayer _passthroughLayer;
+
+        private IInteractor _interactor;
+
 
         private void OnEnable()
         {
-            interactor = GetComponent<IInteractor>();
-        }
-
-        void Start()
-        {
-
-            interactor.WhenStateChanged += ProcessState;
-
+            _interactor = GetComponent<IInteractor>();
+            _interactor.WhenStateChanged += ProcessState;
         }
 
         private void ProcessState(InteractorStateChangeArgs obj)
@@ -42,9 +40,24 @@ namespace Xrtinkr.Interaction
             }
         }
 
-        private void EnablePassthrough() => OVRManager.instance.isInsightPassthroughEnabled = true;
+        private void EnablePassthrough()
+        {
+            OVRManager.instance.isInsightPassthroughEnabled = true;
+            ConfigurePassthroughLayer();
+        }
 
-        private void DisablePassthrough() => OVRManager.instance.isInsightPassthroughEnabled = false;
+        private void DisablePassthrough()
+        {
+            OVRManager.instance.isInsightPassthroughEnabled = false;
+        }
+
+        private void ConfigurePassthroughLayer()
+        { 
+            _passthroughLayer.textureOpacity = 0;
+            _passthroughLayer.edgeRenderingEnabled = true;
+            _passthroughLayer.edgeColor = new Color(0, 200, 255, 200);
+            Debug.Log("Configured Passthrough Layer");
+        }
 
     }
 }

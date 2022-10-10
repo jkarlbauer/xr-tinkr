@@ -401,7 +401,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 126d619cf4daa52469682f85c1378b4a, type: 3}
       propertyPath: isInsightPassthroughEnabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1878084350983922800, guid: 126d619cf4daa52469682f85c1378b4a, type: 3}
       propertyPath: _hmdData
@@ -427,6 +427,38 @@ PrefabInstance:
       propertyPath: _trackingToWorldTransformer
       value: 
       objectReference: {fileID: 1517082732}
+    - target: {fileID: 4238962576469548283, guid: 126d619cf4daa52469682f85c1378b4a, type: 3}
+      propertyPath: colorMapType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4238962576469548283, guid: 126d619cf4daa52469682f85c1378b4a, type: 3}
+      propertyPath: edgeColor_.a
+      value: 0.7647059
+      objectReference: {fileID: 0}
+    - target: {fileID: 4238962576469548283, guid: 126d619cf4daa52469682f85c1378b4a, type: 3}
+      propertyPath: edgeColor_.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4238962576469548283, guid: 126d619cf4daa52469682f85c1378b4a, type: 3}
+      propertyPath: edgeColor_.g
+      value: 0.81066275
+      objectReference: {fileID: 0}
+    - target: {fileID: 4238962576469548283, guid: 126d619cf4daa52469682f85c1378b4a, type: 3}
+      propertyPath: edgeColor_.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4238962576469548283, guid: 126d619cf4daa52469682f85c1378b4a, type: 3}
+      propertyPath: textureOpacity_
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4238962576469548283, guid: 126d619cf4daa52469682f85c1378b4a, type: 3}
+      propertyPath: colorMapEditorType_
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4238962576469548283, guid: 126d619cf4daa52469682f85c1378b4a, type: 3}
+      propertyPath: edgeRenderingEnabled_
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4320654753227354467, guid: 126d619cf4daa52469682f85c1378b4a, type: 3}
       propertyPath: _trackingToWorldTransformer
       value: 
@@ -441,6 +473,17 @@ PrefabInstance:
       objectReference: {fileID: 966707275}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 126d619cf4daa52469682f85c1378b4a, type: 3}
+--- !u!114 &966707266 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4238962576469548283, guid: 126d619cf4daa52469682f85c1378b4a, type: 3}
+  m_PrefabInstance: {fileID: 966707264}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 555725d48e9051a4bb6b8d45178c2fdd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &966707267 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 487254, guid: 126d619cf4daa52469682f85c1378b4a, type: 3}
@@ -642,6 +685,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe1d4d4a25c90bf499e2476440b04cb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _passthroughLayer: {fileID: 966707266}
 --- !u!4 &2126378728 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4484591312116288, guid: 126d619cf4daa52469682f85c1378b4a, type: 3}
