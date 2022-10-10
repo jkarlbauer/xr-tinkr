@@ -1,0 +1,16 @@
+{
+    "name": "Xrtinkr.DataLoading",
+    "rootNamespace": "",
+    "references": [
+        "GUID:774f0e7b520e24644b448f5ac7fa5d94"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
