@@ -27,7 +27,7 @@ namespace Xrtinkr.Debug
         private void ProcessAndLogMessage(string condition, string stackTrace, LogType type)
         {
             ClearLog();
-            string message = $"[{type}] {condition}";
+            string message = $"[{type}] {condition} \n {stackTrace}";
             _logQueue.Enqueue(message);
 
             while (_logQueue.Count > MAX_LOG_MESSAGES){
