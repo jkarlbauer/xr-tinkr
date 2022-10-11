@@ -2,31 +2,35 @@
 using UnityEngine;
 using Siccity.GLTFUtility;
 
-public class LoadGltfData : MonoBehaviour
+namespace Xrtinkr.DataLoading
 {
-    [SerializeField]
-    private string _sampleDataPath = "/sophie-adjusted.glb";
-
-    [SerializeField]
-    private string _fallbackDataPath = "sophie-adjusted.glb";
-    private void OnEnable()
+    public class LoadGltfData : MonoBehaviour
     {
-        string persistentDataPath = Application.persistentDataPath + _sampleDataPath;
+        [SerializeField]
+        private string _sampleDataPath = "/sophie-adjusted.glb";
 
-        try
+        [SerializeField]
+        private string _fallbackDataPath = "sophie-adjusted.glb";
+        private void OnEnable()
         {
-            ImportGLTF(persistentDataPath);
+            string persistentDataPath = Application.persistentDataPath + _sampleDataPath;
+
+            try
+            {
+                ImportGLTF(persistentDataPath);
+            }
+            catch
+            {
+                ImportGLTF(_fallbackDataPath);
+            }
         }
-        catch
+
+        private void ImportGLTF(string filepath)
         {
-            ImportGLTF(_fallbackDataPath);
+            GameObject result = Importer.LoadFromFile(filepath);
+            result.transform.localScale /= 10;
+            Debug.Log("Loaded GLB file");
         }
     }
 
-    private void ImportGLTF(string filepath)
-    {
-        GameObject result = Importer.LoadFromFile(filepath);
-        result.transform.localScale /= 10;
-        Debug.Log("Loaded GLB file");
-    }
 }
