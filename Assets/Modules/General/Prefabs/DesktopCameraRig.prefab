@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7580164938035520262}
   - component: {fileID: 4896256932033399087}
   - component: {fileID: 185198740018484290}
+  - component: {fileID: 1975033156737118357}
   m_Layer: 0
   m_Name: DesktopCameraRig
   m_TagString: Untagged
@@ -84,3 +85,23 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7117060925754943533}
   m_Enabled: 1
+--- !u!114 &1975033156737118357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7117060925754943533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46704d7a4de3c2344a07f345c92f1473, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  forward: {fileID: -1177456218068920457, guid: 80490cba72c5be048a78ff31113f52de, type: 3}
+  backward: {fileID: 9110873514824188239, guid: 80490cba72c5be048a78ff31113f52de, type: 3}
+  left: {fileID: -1591581579188594797, guid: 80490cba72c5be048a78ff31113f52de, type: 3}
+  right: {fileID: 6848811337057553796, guid: 80490cba72c5be048a78ff31113f52de, type: 3}
+  look: {fileID: 1012897991588566507, guid: 80490cba72c5be048a78ff31113f52de, type: 3}
+  sprint: {fileID: 9149373981548409630, guid: 80490cba72c5be048a78ff31113f52de, type: 3}
+  _walkSpeed: 1
+  _lookSpeed: 0.2
