@@ -5,12 +5,15 @@ namespace Xrtinkr.Debug
 {
     public class FollowHeadPose : MonoBehaviour
     {
-        [SerializeField]
         private Transform _head;
 
         [SerializeField]
         private float _yOffset;
 
+        private void Awake()
+        {
+            _head = Camera.main.transform;
+        }
         void Update()
         {
             UpdatePosition();
