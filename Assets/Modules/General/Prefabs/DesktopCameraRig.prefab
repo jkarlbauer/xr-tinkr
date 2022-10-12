@@ -101,6 +101,8 @@ MonoBehaviour:
   backward: {fileID: 9110873514824188239, guid: 80490cba72c5be048a78ff31113f52de, type: 3}
   left: {fileID: -1591581579188594797, guid: 80490cba72c5be048a78ff31113f52de, type: 3}
   right: {fileID: 6848811337057553796, guid: 80490cba72c5be048a78ff31113f52de, type: 3}
+  up: {fileID: 3322553054348541424, guid: 80490cba72c5be048a78ff31113f52de, type: 3}
+  down: {fileID: 7836098467380918042, guid: 80490cba72c5be048a78ff31113f52de, type: 3}
   look: {fileID: 1012897991588566507, guid: 80490cba72c5be048a78ff31113f52de, type: 3}
   sprint: {fileID: 9149373981548409630, guid: 80490cba72c5be048a78ff31113f52de, type: 3}
   _walkSpeed: 1

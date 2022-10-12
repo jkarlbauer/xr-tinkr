@@ -8,7 +8,9 @@ namespace Xrtinkr.Input
         Forward = 0,
         Backward = 1 ,
         Left = 2,
-        Right = 3
+        Right = 3,
+        Up = 4,
+        Down = 5,
     }
 
     public class DesktopPlayerController : MonoBehaviour
@@ -24,6 +26,12 @@ namespace Xrtinkr.Input
 
         [SerializeField]
         InputActionReference right;
+
+        [SerializeField]
+        InputActionReference up;
+
+        [SerializeField]
+        InputActionReference down;
 
         [SerializeField]
         InputActionReference look;
@@ -54,6 +62,8 @@ namespace Xrtinkr.Input
             backward.action.Enable();
             left.action.Enable();
             right.action.Enable();
+            up.action.Enable();
+            down.action.Enable();
             look.action.Enable();
             sprint.action.Enable();
         }
@@ -80,6 +90,16 @@ namespace Xrtinkr.Input
             if (right.action.IsPressed())
             {
                 Move(MoveDirection.Right);
+            }
+
+            if (up.action.IsPressed())
+            {
+                Move(MoveDirection.Up);
+            }
+
+            if (down.action.IsPressed())
+            {
+                Move(MoveDirection.Down);
             }
 
             if (left.action.IsPressed())
@@ -111,6 +131,12 @@ namespace Xrtinkr.Input
                     break;
                 case MoveDirection.Right:
                     directionVector = transform.right;
+                    break;
+                case MoveDirection.Up:
+                    directionVector = transform.up;
+                    break;
+                case MoveDirection.Down:
+                    directionVector = -transform.up;
                     break;
                 case MoveDirection.Left:
                     directionVector = -transform.right;
