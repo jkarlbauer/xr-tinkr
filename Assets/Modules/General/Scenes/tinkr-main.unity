@@ -832,10 +832,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: DesktopCameraRig
       objectReference: {fileID: 0}
-    - target: {fileID: 7117060925754943533, guid: 5c51542fc5f6ead478444cd3258f8917, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7580164938035520262, guid: 5c51542fc5f6ead478444cd3258f8917, type: 3}
       propertyPath: m_RootOrder
       value: 6
