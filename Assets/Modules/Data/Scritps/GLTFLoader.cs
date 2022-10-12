@@ -4,9 +4,9 @@ using Siccity.GLTFUtility;
 using Xrtinkr.System;
 using System;
 
-namespace Xrtinkr.DataLoading
+namespace Xrtinkr.Data
 {
-    public class LoadGltfData : MonoBehaviour
+    public class GLTFLoader : MonoBehaviour
     {
         [SerializeField]
         private string _sampleDataPath = "/sophie-adjusted.glb";
@@ -46,8 +46,15 @@ namespace Xrtinkr.DataLoading
         private void ImportGLTF(string filepath)
         {
             GameObject result = Importer.LoadFromFile(filepath);
-            result.transform.localScale /= 10;
             Debug.Log("Loaded GLB file");
+
+            GLTFParser gltfParser = new GLTFParser(result);
+
+            //gltfParser.Center();
+            gltfParser.RescaleIfRequired();
+            gltfParser.AdjustToGroundLevel();
+     
+
         }
     }
 

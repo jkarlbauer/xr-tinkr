@@ -729,6 +729,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DataLoader
       objectReference: {fileID: 0}
+    - target: {fileID: 147571505392405918, guid: 3f8ad794892c4e74ba48a92b374ca9f6, type: 3}
+      propertyPath: _fallbackDataPath
+      value: sophies_tiny_house.glb
+      objectReference: {fileID: 0}
     - target: {fileID: 147571505392405919, guid: 3f8ad794892c4e74ba48a92b374ca9f6, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -781,6 +785,10 @@ PrefabInstance:
     - target: {fileID: 479686852232201135, guid: bb3997e77df7ce84e8d7898ba69c0650, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 479686853937330492, guid: bb3997e77df7ce84e8d7898ba69c0650, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.01
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bb3997e77df7ce84e8d7898ba69c0650, type: 3}
