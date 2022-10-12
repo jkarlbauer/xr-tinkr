@@ -1,6 +1,8 @@
 
 using UnityEngine;
 using Siccity.GLTFUtility;
+using Xrtinkr.System;
+using System;
 
 namespace Xrtinkr.DataLoading
 {
@@ -15,14 +17,30 @@ namespace Xrtinkr.DataLoading
         {
             string persistentDataPath = Application.persistentDataPath + _sampleDataPath;
 
-            try
+            if (SystemState.isOculusQuest)
             {
-                ImportGLTF(persistentDataPath);
+                try
+                {
+                    ImportGLTF(persistentDataPath);
+                }
+                catch(Exception e)
+                {
+                    Debug.LogError("Could not load file. " + e.StackTrace);
+                }
             }
-            catch
+
+            if (SystemState.isDesktop)
             {
-                ImportGLTF(_fallbackDataPath);
+                try
+                {
+                    ImportGLTF(_fallbackDataPath);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError("Could not load file. " + e.StackTrace);
+                }
             }
+
         }
 
         private void ImportGLTF(string filepath)

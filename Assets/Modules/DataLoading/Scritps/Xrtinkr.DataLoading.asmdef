@@ -2,7 +2,8 @@
     "name": "Xrtinkr.DataLoading",
     "rootNamespace": "",
     "references": [
-        "GUID:774f0e7b520e24644b448f5ac7fa5d94"
+        "GUID:774f0e7b520e24644b448f5ac7fa5d94",
+        "GUID:be973503bdd9108439a10086b6160190"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
