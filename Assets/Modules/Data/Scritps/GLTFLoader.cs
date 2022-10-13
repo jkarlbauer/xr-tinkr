@@ -9,10 +9,7 @@ namespace Xrtinkr.Data
     public class GLTFLoader : MonoBehaviour
     {
         [SerializeField]
-        private string _sampleDataPath = "/sophie-adjusted.glb";
-
-        [SerializeField]
-        private string _fallbackDataPath = "sophie-adjusted.glb";
+        private string optionalFileName = null;
 
         private IFilePicker _filePicker;
         private void OnEnable()
@@ -32,16 +29,15 @@ namespace Xrtinkr.Data
 
             string _filepath = TryPickFile();
             TryImportGLTF(_filepath);
-          
         }
 
         private string TryPickFile()
         {
-            string path = "./";
+            string path = "";
 
             try
             {
-                path = _filePicker.PickFile("sophie-adjusted.glb");
+                path = _filePicker.PickFile(optionalFileName);
 
             }catch(Exception e)
             {
