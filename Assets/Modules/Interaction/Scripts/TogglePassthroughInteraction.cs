@@ -1,18 +1,15 @@
 using UnityEngine;
 using Oculus.Interaction;
-using System;
-using System.Collections;
 
 namespace Xrtinkr.Interaction
 {
     [RequireComponent(typeof(IInteractor))]
-    public class TogglePassthrough : MonoBehaviour
+    public class TogglePassthroughInteraction : MonoBehaviour
     {
         [SerializeField]
         private OVRPassthroughLayer _passthroughLayer;
 
         private IInteractor _interactor;
-
 
         private void OnEnable()
         {
