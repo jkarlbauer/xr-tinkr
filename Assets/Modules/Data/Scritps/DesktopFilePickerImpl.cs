@@ -6,10 +6,20 @@ namespace Xrtinkr.Data
     {
         string mainDirectoryPath = "./";
 
-        public string PickFile(string filename)
+        public string PickFile(string optionalFileName)
+        {
+            if (optionalFileName == null || optionalFileName == "")
+            {
+                return PickFileFromOrder();
+            }
+            else
+            {
+                return PickFileFromName(optionalFileName);
+            }
+        }
+        private string PickFileFromName(string filename)
         {
             DirectoryInfo directoryInfo = new DirectoryInfo(mainDirectoryPath);
-            ;
 
             foreach (FileInfo fileInfo in directoryInfo.GetFiles())
             {
@@ -19,10 +29,10 @@ namespace Xrtinkr.Data
                 }
             }
 
-            return null;
+            throw new FileNotFoundException();
         }
 
-        public string PickFile()
+        private string PickFileFromOrder()
         {
             DirectoryInfo directoryInfo = new DirectoryInfo(mainDirectoryPath);
             foreach (FileInfo fileInfo in directoryInfo.GetFiles())
@@ -33,7 +43,7 @@ namespace Xrtinkr.Data
                 }
             }
 
-            return null;
+            throw new FileNotFoundException();
         }
     }
 }
