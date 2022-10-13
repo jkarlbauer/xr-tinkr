@@ -730,6 +730,10 @@ PrefabInstance:
       value: DataLoader
       objectReference: {fileID: 0}
     - target: {fileID: 147571505392405918, guid: 3f8ad794892c4e74ba48a92b374ca9f6, type: 3}
+      propertyPath: _sampleDataPath
+      value: /sophies_tiny_house.glb
+      objectReference: {fileID: 0}
+    - target: {fileID: 147571505392405918, guid: 3f8ad794892c4e74ba48a92b374ca9f6, type: 3}
       propertyPath: _fallbackDataPath
       value: sophies_tiny_house.glb
       objectReference: {fileID: 0}

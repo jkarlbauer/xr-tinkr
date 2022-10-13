@@ -14,12 +14,15 @@ namespace Xrtinkr.Data
         public GLTFParser(GameObject gltfWrapper)
         {
             _gltfWrapper = gltfWrapper;
-          /*  _wrapperTransforms = GetWrapperTransforms();
-            _minBounds = GetMinBoundary();
-            _maxBounds = GetMaxBoundary();*/
         }
 
-        public void AdjustToGroundLevel()
+        public void Parse()
+        {
+            RescaleIfRequired();
+            Center();
+            AdjustToGroundLevel();
+        }
+        private void AdjustToGroundLevel()
         {
             float minY = _minBounds.y;
             float yOffset = -minY;
@@ -100,7 +103,7 @@ namespace Xrtinkr.Data
 
         private Transform[] GetWrapperTransforms() => _gltfWrapper.GetComponentsInChildren<Transform>();
 
-        public void RescaleIfRequired()
+        private void RescaleIfRequired()
         {
             Vector3 minBound = _minBounds;
             Vector3 maxBound = _maxBounds;
@@ -115,11 +118,12 @@ namespace Xrtinkr.Data
 
         private void Rescale()
         {
-            float scalingFactor = Vector3.Distance(_minBounds, _maxBounds) / 4;
+            float maximumTransformDistanceAfterScale = 6;
+            float scalingFactor = Vector3.Distance(_minBounds, _maxBounds) / maximumTransformDistanceAfterScale;
             _gltfWrapper.transform.localScale /= scalingFactor;
         }
 
-        public void Center()
+        private void Center()
         {
             Vector3 sceneOrigin = Vector3.zero;
             Vector3 centerOfMass = GetCenterOfMass();
@@ -127,6 +131,7 @@ namespace Xrtinkr.Data
             GLTFContainer.transform.position = centerOfMass;
             _gltfWrapper.transform.parent = GLTFContainer.transform;
             GLTFContainer.transform.position = sceneOrigin;
+            //TODO remove temp parent
 
         }
 

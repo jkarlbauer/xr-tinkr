@@ -13,50 +13,62 @@ namespace Xrtinkr.Data
 
         [SerializeField]
         private string _fallbackDataPath = "sophie-adjusted.glb";
+
+        private IFilePicker _filePicker;
         private void OnEnable()
         {
-            string persistentDataPath = Application.persistentDataPath + _sampleDataPath;
+            
 
             if (SystemState.isOculusQuest)
             {
-                try
-                {
-                    ImportGLTF(persistentDataPath);
-                }
-                catch(Exception e)
-                {
-                    Debug.LogError("Could not load file. " + e.StackTrace);
-                }
+                _filePicker = new QuestFilePickerImpl();
             }
 
             if (SystemState.isDesktop)
-            {
-                try
-                {
-                    ImportGLTF(_fallbackDataPath);
-                }
-                catch (Exception e)
-                {
-                    Debug.LogError("Could not load file. " + e.StackTrace);
-                }
+            {  
+                _filePicker = new DesktopFilePickerImpl();
             }
 
+
+            string _filepath = TryPickFile();
+            TryImportGLTF(_filepath);
+          
+        }
+
+        private string TryPickFile()
+        {
+            string path = "./";
+
+            try
+            {
+                path = _filePicker.PickFile("sophie-adjusted.glb");
+
+            }catch(Exception e)
+            {
+                Debug.LogError("could not pick GLB file");
+            }
+
+            return path;
+        }
+
+        private void TryImportGLTF(string filepath)
+        {
+            try
+            {
+                ImportGLTF(filepath);
+            }catch(Exception e)
+            {
+                Debug.LogError("could not load GLTF File");
+            }
         }
 
         private void ImportGLTF(string filepath)
         {
             GameObject result = Importer.LoadFromFile(filepath);
-            Debug.Log("Loaded GLB file");
+            Debug.Log($"Loaded GLB file from: {filepath}");
 
             GLTFParser gltfParser = new GLTFParser(result);
-
-
-            gltfParser.RescaleIfRequired();
-            gltfParser.Center();
-            gltfParser.AdjustToGroundLevel();
-
-
-
+            gltfParser.Parse();
         }
     }
 
