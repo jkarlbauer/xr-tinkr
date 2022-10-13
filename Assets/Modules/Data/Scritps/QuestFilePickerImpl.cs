@@ -2,40 +2,44 @@
 using System.IO;
 using UnityEngine;
 
-public class QuestFilePickerImpl : IFilePicker
+namespace Xrtinkr.Data
 {
-    private string _mainDirectoryPath;
-
-    public QuestFilePickerImpl()
+    public class QuestFilePickerImpl : IFilePicker
     {
-        _mainDirectoryPath = Application.persistentDataPath;
-    }
-    public string PickFile(string filename)
-    {
-        DirectoryInfo directoryInfo = new DirectoryInfo(_mainDirectoryPath);
+        private string _mainDirectoryPath;
 
-        foreach (FileInfo fileInfo in directoryInfo.GetFiles())
+        public QuestFilePickerImpl()
         {
-            if (fileInfo.Name.Equals(filename))
+            _mainDirectoryPath = Application.persistentDataPath;
+        }
+        public string PickFile(string filename)
+        {
+            DirectoryInfo directoryInfo = new DirectoryInfo(_mainDirectoryPath);
+
+            foreach (FileInfo fileInfo in directoryInfo.GetFiles())
             {
-                return fileInfo.FullName;
+                if (fileInfo.Name.Equals(filename))
+                {
+                    return fileInfo.FullName;
+                }
             }
+
+            return null;
         }
 
-        return null;
-    }
-
-    public string PickFile()
-    {
-        DirectoryInfo directoryInfo = new DirectoryInfo(_mainDirectoryPath);
-        foreach (FileInfo fileInfo in directoryInfo.GetFiles())
+        public string PickFile()
         {
-            if (fileInfo.Extension == "glb" || fileInfo.Extension == ".glb")
+            DirectoryInfo directoryInfo = new DirectoryInfo(_mainDirectoryPath);
+            foreach (FileInfo fileInfo in directoryInfo.GetFiles())
             {
-                return fileInfo.FullName;
+                if (fileInfo.Extension == "glb" || fileInfo.Extension == ".glb")
+                {
+                    return fileInfo.FullName;
+                }
             }
-        }
 
-        return null;
+            return null;
+        }
     }
 }
+

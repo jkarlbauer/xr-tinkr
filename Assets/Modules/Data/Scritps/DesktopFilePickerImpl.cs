@@ -1,37 +1,40 @@
 
 using System.IO;
-
-public class DesktopFilePickerImpl : IFilePicker
+namespace Xrtinkr.Data
 {
-    string mainDirectoryPath = "./";
-
-    public string PickFile(string filename)
+    public class DesktopFilePickerImpl : IFilePicker
     {
-        DirectoryInfo directoryInfo = new DirectoryInfo(mainDirectoryPath);
-;
+        string mainDirectoryPath = "./";
 
-        foreach(FileInfo fileInfo in directoryInfo.GetFiles())
+        public string PickFile(string filename)
         {
-            if (fileInfo.Name.Equals(filename))
+            DirectoryInfo directoryInfo = new DirectoryInfo(mainDirectoryPath);
+            ;
+
+            foreach (FileInfo fileInfo in directoryInfo.GetFiles())
             {
-               return fileInfo.FullName;
+                if (fileInfo.Name.Equals(filename))
+                {
+                    return fileInfo.FullName;
+                }
             }
+
+            return null;
         }
 
-        return null;
-    }
-
-    public string PickFile()
-    {
-        DirectoryInfo directoryInfo = new DirectoryInfo(mainDirectoryPath);
-        foreach(FileInfo fileInfo in directoryInfo.GetFiles())
+        public string PickFile()
         {
-            if(fileInfo.Extension == "glb" || fileInfo.Extension == ".glb")
+            DirectoryInfo directoryInfo = new DirectoryInfo(mainDirectoryPath);
+            foreach (FileInfo fileInfo in directoryInfo.GetFiles())
             {
-                return fileInfo.FullName;
+                if (fileInfo.Extension == "glb" || fileInfo.Extension == ".glb")
+                {
+                    return fileInfo.FullName;
+                }
             }
-        }
 
-        return null;
+            return null;
+        }
     }
 }
+
