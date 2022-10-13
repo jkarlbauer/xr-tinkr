@@ -1,10 +1,9 @@
 
-using System.IO;
 using UnityEngine;
 
 namespace Xrtinkr.Data
 {
-    public class QuestFilePickerImpl : IFilePicker
+    public class QuestFilePickerImpl : IFilePickerImpl
     {
         private string _mainDirectoryPath;
 
@@ -15,43 +14,18 @@ namespace Xrtinkr.Data
 
         public string PickFile(string optionalFileName)
         {
+            FilePicker filePicker = new FilePicker(_mainDirectoryPath);
+
             if(optionalFileName == null || optionalFileName == "")
             {
-                return PickFileFromOrder();
+                return filePicker.PickFileFromOrder();
             }
             else
             {
-                return PickFileFromName(optionalFileName);
+                return filePicker.PickFileFromName(optionalFileName);
             }
         }
-        private string PickFileFromName(string filename)
-        {
-            DirectoryInfo directoryInfo = new DirectoryInfo(_mainDirectoryPath);
 
-            foreach (FileInfo fileInfo in directoryInfo.GetFiles())
-            {
-                if (fileInfo.Name.Equals(filename))
-                {
-                    return fileInfo.FullName;
-                }
-            }
-
-            throw new FileNotFoundException();
-        }
-
-        private string PickFileFromOrder()
-        {
-            DirectoryInfo directoryInfo = new DirectoryInfo(_mainDirectoryPath);
-            foreach (FileInfo fileInfo in directoryInfo.GetFiles())
-            {
-                if (fileInfo.Extension == "glb" || fileInfo.Extension == ".glb")
-                {
-                    return fileInfo.FullName;
-                }
-            }
-
-            throw new FileNotFoundException();
-        }
     }
 }
 

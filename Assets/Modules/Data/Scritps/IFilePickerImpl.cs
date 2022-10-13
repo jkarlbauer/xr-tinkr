@@ -1,6 +1,6 @@
 namespace Xrtinkr.Data
 {
-    public interface IFilePicker
+    public interface IFilePickerImpl
     {
         public string PickFile(string optionalFileName);
 
