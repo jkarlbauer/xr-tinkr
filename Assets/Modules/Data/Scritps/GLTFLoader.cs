@@ -50,10 +50,12 @@ namespace Xrtinkr.Data
 
             GLTFParser gltfParser = new GLTFParser(result);
 
-            //gltfParser.Center();
+
             gltfParser.RescaleIfRequired();
+            gltfParser.Center();
             gltfParser.AdjustToGroundLevel();
-     
+
+
 
         }
     }

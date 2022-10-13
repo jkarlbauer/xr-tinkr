@@ -123,12 +123,11 @@ namespace Xrtinkr.Data
         {
             Vector3 sceneOrigin = Vector3.zero;
             Vector3 centerOfMass = GetCenterOfMass();
+            GameObject GLTFContainer = new GameObject("GLTFContainer");
+            GLTFContainer.transform.position = centerOfMass;
+            _gltfWrapper.transform.parent = GLTFContainer.transform;
+            GLTFContainer.transform.position = sceneOrigin;
 
-            foreach (Transform _transform in _wrapperTransforms)
-            {
-                Vector3 fromCenterOfMass = centerOfMass - _transform.position;
-                _transform.position = fromCenterOfMass;
-            }
         }
 
         private Vector3 GetCenterOfMass() => (_minBounds + _maxBounds) / 2;
