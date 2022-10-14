@@ -27,7 +27,7 @@ namespace Xrtinkr.Interaction
 
         private void TogglePassthroughState()
         {
-            if (OVRManager.IsInsightPassthroughInitialized())
+            if (_passthroughLayer.enabled)
             {
                 DisablePassthrough();
             }
@@ -39,22 +39,19 @@ namespace Xrtinkr.Interaction
 
         private void EnablePassthrough()
         {
-            OVRManager.instance.isInsightPassthroughEnabled = true;
-            ConfigurePassthroughLayer();
+
+            _passthroughLayer.enabled = true;
+            Debug.Log("enabled passthrough");
         }
 
         private void DisablePassthrough()
         {
-            OVRManager.instance.isInsightPassthroughEnabled = false;
+            _passthroughLayer.enabled = false;
+            Debug.Log("disabled passthrough");
+
         }
 
-        private void ConfigurePassthroughLayer()
-        { 
-            _passthroughLayer.textureOpacity = 0;
-            _passthroughLayer.edgeRenderingEnabled = true;
-            _passthroughLayer.edgeColor = new Color(0, 200, 255, 200);
-            Debug.Log("Configured Passthrough Layer");
-        }
+
 
     }
 }
