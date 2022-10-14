@@ -11,7 +11,7 @@ namespace Xrtinkr.Data
         [SerializeField]
         private string optionalFileName = null;
 
-        private IFilePicker _filePicker;
+        private IFilePickerImpl _filePicker;
         private void OnEnable()
         {
             
