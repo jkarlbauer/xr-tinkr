@@ -15,7 +15,7 @@ namespace Xrtinkr.Interaction
 
         private RayInteractor _rayInteractor;
 
-        private LineRenderer lineRenderer;
+        private LineRenderer _lineRenderer;
 
         private void OnEnable()
         {
@@ -23,7 +23,7 @@ namespace Xrtinkr.Interaction
             _rayInteractor.WhenStateChanged += ProcessState;
             _reticle = Instantiate(_reticle);
             _reticle.SetActive(false);
-            lineRenderer = GetComponent<LineRenderer>();
+            _lineRenderer = GetComponent<LineRenderer>();
 
         }
 
@@ -35,18 +35,20 @@ namespace Xrtinkr.Interaction
             if (obj.PreviousState == InteractorState.Hover && obj.NewState == InteractorState.Select)
             {
                 ShowReticle();
+                ShowPointerRay();
             }
 
             if (obj.PreviousState == InteractorState.Select && obj.NewState == InteractorState.Hover)
             {
                 HideReticle();
+                HidePointerRay();
                 Teleport();
             }
         }
 
         private void Update()
         {
-            lineRenderer.SetPositions(new Vector3[] { _rayInteractor.Ray.origin, _rayInteractor.Ray.origin + _rayInteractor.Ray.direction });
+            _lineRenderer.SetPositions(new Vector3[] { _rayInteractor.Ray.origin, _rayInteractor.Ray.origin + _rayInteractor.Ray.direction });
 
             RaycastHit hit;
             if (Physics.Raycast(_rayInteractor.Ray.origin, _rayInteractor.Ray.direction, out hit, Mathf.Infinity, LayerMask.GetMask("TeleportTarget")))
@@ -59,7 +61,11 @@ namespace Xrtinkr.Interaction
 
         private void ShowReticle() => _reticle.SetActive(true);
         private void HideReticle() => _reticle.SetActive(false);
+        private void ShowPointerRay() => _lineRenderer.enabled = true;
+        private void HidePointerRay() => _lineRenderer.enabled = false;
         private void Teleport() => _OVRCameraRig.transform.position = _reticle.transform.position;
+
+
 
     }
 
