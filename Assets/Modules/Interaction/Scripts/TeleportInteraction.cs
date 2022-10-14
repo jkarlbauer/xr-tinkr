@@ -17,6 +17,9 @@ namespace Xrtinkr.Interaction
 
         private LineRenderer _lineRenderer;
 
+        private const float DWELL_TIME = 1.5f;
+        private float _pinchStartTime;
+
         private void OnEnable()
         {
             _rayInteractor = GetComponent<RayInteractor>();
@@ -29,19 +32,34 @@ namespace Xrtinkr.Interaction
 
         private void ProcessState(InteractorStateChangeArgs obj)
         {
+            bool pinchStarted = HasPinchStarted(obj);
+            bool pinchEnded = HasPinchEnded(obj);
 
-            Debug.Log(obj.PreviousState);
-            Debug.Log(obj.NewState);
-            if (obj.PreviousState == InteractorState.Hover && obj.NewState == InteractorState.Select)
+            if (pinchStarted)
             {
-                ShowReticle();
-                ShowPointerRay();
+                HandlePinchStarted();
             }
 
-            if (obj.PreviousState == InteractorState.Select && obj.NewState == InteractorState.Hover)
+            if (pinchEnded)
             {
-                HideReticle();
-                HidePointerRay();
+                HandlePinchEnded();
+            }
+        }
+
+        private void HandlePinchStarted()
+        {
+            SetPinchStartTime();
+            ShowReticle();
+            ShowPointerRay();
+        }
+
+        private void HandlePinchEnded()
+        {
+            HideReticle();
+            HidePointerRay();
+
+            if (GetCurrentHoldTime() >= DWELL_TIME)
+            {
                 Teleport();
             }
         }
@@ -55,15 +73,17 @@ namespace Xrtinkr.Interaction
             {
                 _reticle.transform.position = hit.point;
             }
-
-
         }
 
+        private bool HasPinchStarted(InteractorStateChangeArgs obj) => obj.PreviousState == InteractorState.Hover && obj.NewState == InteractorState.Select;
+        private bool HasPinchEnded(InteractorStateChangeArgs obj) => obj.PreviousState == InteractorState.Select && obj.NewState == InteractorState.Hover;
         private void ShowReticle() => _reticle.SetActive(true);
         private void HideReticle() => _reticle.SetActive(false);
         private void ShowPointerRay() => _lineRenderer.enabled = true;
         private void HidePointerRay() => _lineRenderer.enabled = false;
         private void Teleport() => _OVRCameraRig.transform.position = _reticle.transform.position;
+        private void SetPinchStartTime() => _pinchStartTime = Time.time;
+        private float GetCurrentHoldTime() => Time.time - _pinchStartTime;
 
 
 
