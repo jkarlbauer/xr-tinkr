@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace Xrtinkr.Debug
 {
+    [RequireComponent(typeof(TextMeshProUGUI))]
     public class LogConsoleToGUI : MonoBehaviour
     {
-        [SerializeField]
         private TextMeshProUGUI _textMeshPro;
 
         private Queue<string> _logQueue;
@@ -15,6 +15,7 @@ namespace Xrtinkr.Debug
 
         private void OnEnable()
         {
+            _textMeshPro = GetComponent<TextMeshProUGUI>();
             _logQueue = new Queue<string>();
             Application.logMessageReceived += ProcessAndLogMessage;
         }
