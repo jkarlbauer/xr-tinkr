@@ -412,7 +412,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _reticle: {fileID: 6943450733437761477, guid: f6accd815df2d1d4a84bacc33d3218f9, type: 3}
   _OVRCameraRig: {fileID: 1105551855}
-  _visualDwellFeedback: {fileID: 3034796522448083722, guid: 99e0d61b35a6440489baa4e53f9dd834, type: 3}
+  _dwellTimerPrefab: {fileID: 3034796522448083722, guid: 99e0d61b35a6440489baa4e53f9dd834, type: 3}
+  _dwellTime: 1.5
 --- !u!120 &537060087
 LineRenderer:
   m_ObjectHideFlags: 0

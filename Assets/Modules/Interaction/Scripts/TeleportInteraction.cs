@@ -1,14 +1,12 @@
 using UnityEngine;
 using Oculus.Interaction;
-using UnityEngine.UI;
 using Xrtinkr.Utils;
-
+using Xrtinkr.UI;
 
 namespace Xrtinkr.Interaction
 {
-    [RequireComponent(typeof(RayInteractor))]
     [RequireComponent(typeof(LineRenderer))]
-    public class TeleportInteraction : MonoBehaviour
+    public class TeleportInteraction : BaseInteraction
     {
         [SerializeField]
         private GameObject _reticle;
@@ -17,56 +15,57 @@ namespace Xrtinkr.Interaction
         private GameObject _OVRCameraRig;
 
         [SerializeField]
-        private GameObject _visualDwellFeedback;
+        private GameObject _dwellTimerPrefab;
 
-        private Image _dwellImage;
+        private DwellTimer _dwellTimer;
+
+        [SerializeField]
+        private float _dwellTime;
 
         private RayInteractor _rayInteractor;
 
         private LineRenderer _lineRenderer;
 
-        private const float DWELL_TIME = 1.0f;
+
         private bool _isPinching;
 
         private Timer _timer;
 
         private void OnEnable()
         {
+            RegisterInteractor();
+
+            _rayInteractor = interactor as RayInteractor;
+
+            SetupDwellTimer();
+            SetupReticle();
+            SetupLineRenderer();
+
             _timer = new Timer();
-            _rayInteractor = GetComponent<RayInteractor>();
-            _rayInteractor.WhenStateChanged += ProcessState;
-            SetupVisuals();
-  
+
         }
 
-        private void SetupVisuals()
+        private void SetupLineRenderer()
+        {
+            _lineRenderer = GetComponent<LineRenderer>();
+        }
+
+        private void SetupReticle()
         {
             _reticle = Instantiate(_reticle);
             _reticle.SetActive(false);
-            _lineRenderer = GetComponent<LineRenderer>();
-            _visualDwellFeedback = Instantiate(_visualDwellFeedback);
-            _visualDwellFeedback.SetActive(false);
-            _dwellImage = _visualDwellFeedback.GetComponentInChildren<Image>();
-
         }
 
-        private void ProcessState(InteractorStateChangeArgs obj)
+        private void SetupDwellTimer()
         {
-            bool pinchStarted = HasPinchStarted(obj);
-            bool pinchEnded = HasPinchEnded(obj);
-
-            if (pinchStarted)
-            {
-                HandlePinchStarted();
-            }
-
-            if (pinchEnded)
-            {
-                HandlePinchEnded();
-            }
+            _dwellTimerPrefab = Instantiate(_dwellTimerPrefab);
+            _dwellTimer = _dwellTimerPrefab.GetComponent<DwellTimer>();
+            _dwellTimer.Initialize();
+            _dwellTimer.DwellTime = _dwellTime;
+            _dwellTimer.SetOrientationTarget(_OVRCameraRig.GetComponentInChildren<Camera>().transform);
         }
 
-        private void HandlePinchStarted()
+        protected override void HandlePinchStarted()
         {
             _isPinching = true;
             _timer.StartTimer();
@@ -74,13 +73,13 @@ namespace Xrtinkr.Interaction
             ShowUI();
         }
 
-        private void HandlePinchEnded()
+        protected override void HandlePinchEnded()
         {
             _isPinching = false;
             HideReticle();
             HideUI();
 
-            if (_timer.ElapsedTimeSinceStart >= DWELL_TIME)
+            if (_timer.ElapsedTimeSinceStart >= _dwellTime)
             {
                 Teleport();
             }
@@ -96,48 +95,47 @@ namespace Xrtinkr.Interaction
         {
             UpdateLineRenderer();
             UpdateDwellVisuals();
+            UpdateReticle();
 
 
+        }
+
+        private void UpdateReticle()
+        {
             RaycastHit hit;
             if (Physics.Raycast(_rayInteractor.Ray.origin, _rayInteractor.Ray.direction, out hit, Mathf.Infinity, LayerMask.GetMask("TeleportTarget")))
             {
                 _reticle.transform.position = hit.point;
             }
-    
-
         }
 
         private void UpdateDwellVisuals()
         {
-            _visualDwellFeedback.transform.position = _rayInteractor.Ray.origin;
+
+            _dwellTimer.UpdatePosition(_rayInteractor.Ray.origin);
             if (_isPinching)
             {
-                _dwellImage.fillAmount = _timer.ElapsedTimeSinceStart/DWELL_TIME;
+                _dwellTimer.SetDwellFill(_timer.ElapsedTimeSinceStart / _dwellTime);
             }
-
-            _visualDwellFeedback.transform.forward = _visualDwellFeedback.transform.position - _OVRCameraRig.GetComponentInChildren<Camera>().transform.position;
         }
 
         private void UpdateLineRenderer()
         {
             _lineRenderer.SetPositions(new Vector3[] { _rayInteractor.Ray.origin, _rayInteractor.Ray.origin + _rayInteractor.Ray.direction });
-
         }
 
-        private bool HasPinchStarted(InteractorStateChangeArgs obj) => obj.PreviousState == InteractorState.Hover && obj.NewState == InteractorState.Select;
-        private bool HasPinchEnded(InteractorStateChangeArgs obj) => obj.PreviousState == InteractorState.Select && obj.NewState == InteractorState.Hover;
         private void ShowReticle() => _reticle.SetActive(true);
         private void HideReticle() => _reticle.SetActive(false);
         private void ShowUI()
         {
             _lineRenderer.enabled = true;
-            _visualDwellFeedback.SetActive(true);
+            _dwellTimer.Show();
         }
 
         private void HideUI()
         {
             _lineRenderer.enabled = false;
-            _visualDwellFeedback.SetActive(false);
+            _dwellTimer.Hide();
         }
 
         private void Teleport() => _OVRCameraRig.transform.position = _reticle.transform.position;
