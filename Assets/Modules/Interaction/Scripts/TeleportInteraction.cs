@@ -1,7 +1,8 @@
 using UnityEngine;
 using Oculus.Interaction;
 using UnityEngine.UI;
-using System;
+using Xrtinkr.Utils;
+
 
 namespace Xrtinkr.Interaction
 {
@@ -25,11 +26,13 @@ namespace Xrtinkr.Interaction
         private LineRenderer _lineRenderer;
 
         private const float DWELL_TIME = 1.0f;
-        private float _pinchStartTime;
         private bool _isPinching;
+
+        private Timer _timer;
 
         private void OnEnable()
         {
+            _timer = new Timer();
             _rayInteractor = GetComponent<RayInteractor>();
             _rayInteractor.WhenStateChanged += ProcessState;
             SetupVisuals();
@@ -66,7 +69,7 @@ namespace Xrtinkr.Interaction
         private void HandlePinchStarted()
         {
             _isPinching = true;
-            SetPinchStartTime();
+            _timer.StartTimer();
             ShowReticle();
             ShowUI();
         }
@@ -77,7 +80,7 @@ namespace Xrtinkr.Interaction
             HideReticle();
             HideUI();
 
-            if (GetCurrentHoldTime() >= DWELL_TIME)
+            if (_timer.ElapsedTimeSinceStart >= DWELL_TIME)
             {
                 Teleport();
             }
@@ -109,7 +112,7 @@ namespace Xrtinkr.Interaction
             _visualDwellFeedback.transform.position = _rayInteractor.Ray.origin;
             if (_isPinching)
             {
-                _dwellImage.fillAmount = GetCurrentHoldTime()/DWELL_TIME;
+                _dwellImage.fillAmount = _timer.ElapsedTimeSinceStart/DWELL_TIME;
             }
 
             _visualDwellFeedback.transform.forward = _visualDwellFeedback.transform.position - _OVRCameraRig.GetComponentInChildren<Camera>().transform.position;
@@ -138,9 +141,6 @@ namespace Xrtinkr.Interaction
         }
 
         private void Teleport() => _OVRCameraRig.transform.position = _reticle.transform.position;
-        private void SetPinchStartTime() => _pinchStartTime = Time.time;
-        private float GetCurrentHoldTime() => Time.time - _pinchStartTime;
-
 
 
     }
