@@ -21,11 +21,12 @@ namespace Xrtinkr.Utils
             }
             else
             {
-                return -1f;
+                return 0f;
             }
         }
 
         private bool IsTimerValid() => _startTime > 0;
+        public void ResetTimer() => _startTime = -1f;
 
     }
 
