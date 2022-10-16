@@ -1,18 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using Xrtinkr.Interaction;
 
-public class TeleportDwellVisuals : MonoBehaviour
+namespace Xrtinkr.UI.Teleport
 {
-    // Start is called before the first frame update
-    void Start()
+    public class TeleportDwellVisuals : MonoBehaviour
     {
-        
+        [SerializeField]
+        private TeleportInteraction _teleportInteraction;
+
+        [SerializeField]
+        private Transform _lookTarget;
+
+        private Image _dwellImage;
+        public void Show() => _dwellImage.enabled = true;
+        public void Hide() => _dwellImage.enabled = false;
+
+        private void Update()
+        {
+            UpdateOrienteation();
+            UpdatePosition();
+            SetDwellFill(_teleportInteraction.GetCurrentPinchingDuration());
+        }
+
+
+        public void SetDwellFill(float amount)
+        {
+            _dwellImage.fillAmount = amount;
+        }
+
+        private void UpdateOrienteation() => transform.forward = transform.position - _lookTarget.position;
+        public void UpdatePosition() => transform.position = _teleportInteraction.GetRayOrigin();
+
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
+

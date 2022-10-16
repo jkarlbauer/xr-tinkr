@@ -1,18 +1,58 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Xrtinkr.Interaction;
 
-public class TeleportReticleVisuals : MonoBehaviour
+namespace Xrtinkr.UI.Teleport
 {
-    // Start is called before the first frame update
-    void Start()
+    public class TeleportReticleVisuals : MonoBehaviour
     {
-        
+        [SerializeField]
+        private TeleportInteraction _teleportInteraction;
+
+        private void OnEnable()
+        {
+
+            _teleportInteraction.PinchStarted += OnPinchStarted;
+            _teleportInteraction.PinchEnded += OnPinchEnded;
+        }
+
+        private void OnDisable()
+        {
+            _teleportInteraction.PinchStarted -= OnPinchStarted;
+            _teleportInteraction.PinchEnded -= OnPinchEnded;
+        }
+
+
+        private void OnPinchStarted()
+        {
+            Show();
+        }
+
+        private void OnPinchEnded()
+        {
+            Hide();
+        }
+
+        private void Show()
+        {
+            GetComponentInChildren<MeshRenderer>().enabled = true;
+
+        }
+
+        private void Hide()
+        {
+            GetComponentInChildren<MeshRenderer>().enabled = false;
+
+        }
+
+        void Update()
+        {
+            UpdateReticlePosition();
+        }
+
+        private void UpdateReticlePosition()
+        {
+            transform.position = _teleportInteraction.CurrentRaycastHit.point;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

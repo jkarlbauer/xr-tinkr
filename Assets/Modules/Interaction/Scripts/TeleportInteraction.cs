@@ -52,7 +52,7 @@ namespace Xrtinkr.Interaction
         {
             PinchEnded?.Invoke();
 
-            if(_timer.ElapsedTimeSinceStart >= _dwellTime)
+            if(GetCurrentPinchingDuration() >= _dwellTime)
             {
                 Teleport();
             }
@@ -83,6 +83,8 @@ namespace Xrtinkr.Interaction
         private void Teleport() => _teleportTarget.transform.position = CurrentRaycastHit.point;
 
         public Vector3 GetRayOrigin() => _rayOrigin.position;
+
+        public float GetCurrentPinchingDuration() => _timer.ElapsedTimeSinceStart;
 
 
     }
