@@ -48,7 +48,7 @@ namespace Xrtinkr.UI.Teleport
 
             Vector3 origin = _teleportInteraction.GetRayOrigin();
             Vector3 target = _teleportInteraction.CurrentRaycastHit.point;
-            Vector3 lineRendererTip = (target - origin).normalized * _lineRendererLength;
+            Vector3 lineRendererTip = origin + (target - origin).normalized * _lineRendererLength;
             _lineRenderer.SetPositions(new Vector3[] { origin, lineRendererTip });
         }
     }

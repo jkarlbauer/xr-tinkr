@@ -13,6 +13,29 @@ namespace Xrtinkr.UI.Teleport
         private Transform _lookTarget;
 
         private Image _dwellImage;
+
+        private void OnEnable()
+        {
+            _dwellImage = GetComponentInChildren<Image>();
+            _teleportInteraction.PinchStarted += OnPinchStarted;
+            _teleportInteraction.PinchEnded += OnPinchEnded;
+        }
+
+        private void OnDisable()
+        {
+            _teleportInteraction.PinchStarted -= OnPinchStarted;
+            _teleportInteraction.PinchEnded -= OnPinchEnded;
+        }
+        private void OnPinchStarted()
+        {
+            Show();
+        }
+
+        private void OnPinchEnded()
+        {
+            Hide();
+        }
+
         public void Show() => _dwellImage.enabled = true;
         public void Hide() => _dwellImage.enabled = false;
 
@@ -26,7 +49,10 @@ namespace Xrtinkr.UI.Teleport
 
         public void SetDwellFill(float amount)
         {
-            _dwellImage.fillAmount = amount;
+            if(amount != _dwellImage.fillAmount)
+            {
+                _dwellImage.fillAmount = amount;
+            }
         }
 
         private void UpdateOrienteation() => transform.forward = transform.position - _lookTarget.position;

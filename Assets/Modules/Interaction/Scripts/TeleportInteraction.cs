@@ -39,6 +39,7 @@ namespace Xrtinkr.Interaction
             _pinchSelector.WhenUnselected += HandlePinchEnded;
 
             _timer = new Timer();
+            _currentRaycastHit = new RaycastHit();
 
         }
 
@@ -85,6 +86,7 @@ namespace Xrtinkr.Interaction
         public Vector3 GetRayOrigin() => _rayOrigin.position;
 
         public float GetCurrentPinchingDuration() => _timer.ElapsedTimeSinceStart;
+
 
 
     }
