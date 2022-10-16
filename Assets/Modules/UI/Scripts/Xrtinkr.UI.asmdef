@@ -1,3 +1,16 @@
 {
-	"name": "Xrtinkr.UI"
+    "name": "Xrtinkr.UI",
+    "rootNamespace": "",
+    "references": [
+        "GUID:cbc8f936be1dea64385b8b31ab7fee0e"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

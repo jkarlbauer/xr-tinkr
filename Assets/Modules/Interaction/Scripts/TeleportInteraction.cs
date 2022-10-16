@@ -1,145 +1,91 @@
 using UnityEngine;
 using Oculus.Interaction;
-using UnityEngine.UI;
+using Xrtinkr.Utils;
+using Oculus.Interaction.Input;
 using System;
+using static UnityEngine.UI.Image;
 
 namespace Xrtinkr.Interaction
 {
-    [RequireComponent(typeof(RayInteractor))]
-    [RequireComponent(typeof(LineRenderer))]
     public class TeleportInteraction : MonoBehaviour
     {
-        [SerializeField]
-        private GameObject _reticle;
 
         [SerializeField]
-        private GameObject _OVRCameraRig;
+        private IndexPinchSelector _pinchSelector;
 
         [SerializeField]
-        private GameObject _visualDwellFeedback;
+        private ISelector _selector;
 
-        private Image _dwellImage;
+        [SerializeField]
+        private GameObject _teleportTarget;
 
-        private RayInteractor _rayInteractor;
+        [SerializeField]
+        private Transform _rayOrigin;
 
-        private LineRenderer _lineRenderer;
+        [SerializeField]
+        private float _dwellTime;
 
-        private const float DWELL_TIME = 1.0f;
-        private float _pinchStartTime;
-        private bool _isPinching;
+        private Timer _timer;
+
+        public event Action PinchStarted;
+        public event Action PinchEnded;
+
+        private RaycastHit _currentRaycastHit;
+        public RaycastHit CurrentRaycastHit { get => _currentRaycastHit; }
 
         private void OnEnable()
         {
-            _rayInteractor = GetComponent<RayInteractor>();
-            _rayInteractor.WhenStateChanged += ProcessState;
-            SetupVisuals();
-  
-        }
+            _pinchSelector.WhenSelected += HandlePinchStarted;
+            _pinchSelector.WhenUnselected += HandlePinchEnded;
 
-        private void SetupVisuals()
-        {
-            _reticle = Instantiate(_reticle);
-            _reticle.SetActive(false);
-            _lineRenderer = GetComponent<LineRenderer>();
-            _visualDwellFeedback = Instantiate(_visualDwellFeedback);
-            _visualDwellFeedback.SetActive(false);
-            _dwellImage = _visualDwellFeedback.GetComponentInChildren<Image>();
+            _timer = new Timer();
+            _currentRaycastHit = new RaycastHit();
 
-        }
-
-        private void ProcessState(InteractorStateChangeArgs obj)
-        {
-            bool pinchStarted = HasPinchStarted(obj);
-            bool pinchEnded = HasPinchEnded(obj);
-
-            if (pinchStarted)
-            {
-                HandlePinchStarted();
-            }
-
-            if (pinchEnded)
-            {
-                HandlePinchEnded();
-            }
         }
 
         private void HandlePinchStarted()
         {
-            _isPinching = true;
-            SetPinchStartTime();
-            ShowReticle();
-            ShowUI();
+            _timer.StartTimer();
+            PinchStarted?.Invoke();
         }
 
-        private void HandlePinchEnded()
+        protected void HandlePinchEnded()
         {
-            _isPinching = false;
-            HideReticle();
-            HideUI();
+            PinchEnded?.Invoke();
 
-            if (GetCurrentHoldTime() >= DWELL_TIME)
+            if(GetCurrentPinchingDuration() >= _dwellTime)
             {
                 Teleport();
             }
+
+            _timer.ResetTimer();
         }
 
         private void Update()
         {
-            UpdateVisuals();
-        }
-     
-
-        private void UpdateVisuals()
-        {
-            UpdateLineRenderer();
-            UpdateDwellVisuals();
-
+            Vector3 _orign = _rayOrigin.transform.position;
+            Quaternion _rotation = _rayOrigin.transform.rotation;
+            Vector3 _forward = _rotation * Vector3.forward;
 
             RaycastHit hit;
-            if (Physics.Raycast(_rayInteractor.Ray.origin, _rayInteractor.Ray.direction, out hit, Mathf.Infinity, LayerMask.GetMask("TeleportTarget")))
+
+            if (Physics.Raycast(
+                _orign,
+                _forward,
+                out hit,
+                Mathf.Infinity,
+                LayerMask.GetMask("TeleportTarget")))
             {
-                _reticle.transform.position = hit.point;
+                _currentRaycastHit = hit;
             }
-    
-
         }
 
-        private void UpdateDwellVisuals()
-        {
-            _visualDwellFeedback.transform.position = _rayInteractor.Ray.origin;
-            if (_isPinching)
-            {
-                _dwellImage.fillAmount = GetCurrentHoldTime()/DWELL_TIME;
-            }
 
-            _visualDwellFeedback.transform.forward = _visualDwellFeedback.transform.position - _OVRCameraRig.GetComponentInChildren<Camera>().transform.position;
-        }
+        private void Teleport() => _teleportTarget.transform.position = CurrentRaycastHit.point;
 
-        private void UpdateLineRenderer()
-        {
-            _lineRenderer.SetPositions(new Vector3[] { _rayInteractor.Ray.origin, _rayInteractor.Ray.origin + _rayInteractor.Ray.direction });
+        public Vector3 GetRayOrigin() => _rayOrigin.position;
 
-        }
-
-        private bool HasPinchStarted(InteractorStateChangeArgs obj) => obj.PreviousState == InteractorState.Hover && obj.NewState == InteractorState.Select;
-        private bool HasPinchEnded(InteractorStateChangeArgs obj) => obj.PreviousState == InteractorState.Select && obj.NewState == InteractorState.Hover;
-        private void ShowReticle() => _reticle.SetActive(true);
-        private void HideReticle() => _reticle.SetActive(false);
-        private void ShowUI()
-        {
-            _lineRenderer.enabled = true;
-            _visualDwellFeedback.SetActive(true);
-        }
-
-        private void HideUI()
-        {
-            _lineRenderer.enabled = false;
-            _visualDwellFeedback.SetActive(false);
-        }
-
-        private void Teleport() => _OVRCameraRig.transform.position = _reticle.transform.position;
-        private void SetPinchStartTime() => _pinchStartTime = Time.time;
-        private float GetCurrentHoldTime() => Time.time - _pinchStartTime;
+        public float GetCurrentPinchingDuration() => _timer.ElapsedTimeSinceStart;
 
 
 
