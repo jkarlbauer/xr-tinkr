@@ -20,20 +20,35 @@ namespace Xrtinkr.UI.Teleport
             _lineRenderer = GetComponent<LineRenderer>();
             _teleportInteraction.PinchStarted += OnPinchStarted;
             _teleportInteraction.PinchEnded += OnPinchEnded;
+
+            Hide();
         }
 
         private void OnDisable()
         {
             _teleportInteraction.PinchStarted -= OnPinchStarted;
             _teleportInteraction.PinchEnded -= OnPinchEnded;
+
+            Hide();
         }
 
+
         private void OnPinchStarted()
+        {
+            Show();
+        }
+
+        private void OnPinchEnded()
+        {
+            Hide();
+        }
+
+        private void Show()
         {
             _lineRenderer.enabled = true;
         }
 
-        private void OnPinchEnded()
+        private void Hide()
         {
             _lineRenderer.enabled = false;
         }
