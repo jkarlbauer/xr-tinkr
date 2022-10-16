@@ -20,7 +20,7 @@ namespace Xrtinkr.Interaction
         private GameObject _teleportTarget;
 
         [SerializeField]
-        private GameObject _rayOrigin;
+        private Transform _rayOrigin;
 
         [SerializeField]
         private float _dwellTime;
@@ -81,6 +81,8 @@ namespace Xrtinkr.Interaction
 
 
         private void Teleport() => _teleportTarget.transform.position = CurrentRaycastHit.point;
+
+        public Vector3 GetRayOrigin() => _rayOrigin.position;
 
 
     }
