@@ -8,15 +8,12 @@ namespace Xrtinkr.Debug
     public class LogConsoleToGUI : MonoBehaviour
     {
         private TextMeshProUGUI _textMeshPro;
-
-        private Queue<string> _logQueue;
-
-        private const int MAX_LOG_MESSAGES = 10;
-
+        private LogMessageProcessor _logMessageProcessor;
+        
         private void OnEnable()
         {
             _textMeshPro = GetComponent<TextMeshProUGUI>();
-            _logQueue = new Queue<string>();
+            _logMessageProcessor = new LogMessageProcessor();
             Application.logMessageReceived += ProcessAndLogMessage;
         }
 
@@ -27,23 +24,62 @@ namespace Xrtinkr.Debug
 
         private void ProcessAndLogMessage(string condition, string stackTrace, LogType type)
         {
-            ClearLog();
-            string message = $"[{type}] {condition} \n {stackTrace}";
-            _logQueue.Enqueue(message);
 
-            while (_logQueue.Count > MAX_LOG_MESSAGES){
-                _logQueue.Dequeue();
-            }
+            ClearTextField();
+            _logMessageProcessor.ProcessLogMessage(condition, stackTrace, type);
 
-            foreach(string log in _logQueue)
+            foreach (string log in _logMessageProcessor.LogQueue)
             {
-                Log(log);
+                PrintToConsole(log);
             }
         }
 
-        private void Log(string message) => _textMeshPro.text += message + "\n";
-        private void ClearLog() => _textMeshPro.text = "";
+        private void PrintToConsole(string message) => _textMeshPro.text += message + "\n";
+        private void ClearTextField() => _textMeshPro.text = "";
 
     }
+
+    public class LogMessageProcessor
+    {
+        private Queue<string> _logQueue;
+        public Queue<string> LogQueue { 
+            get => _logQueue;
+        }
+
+        private const int MAX_ALLOWED_LOG_MESSAGES = 10;
+
+        public LogMessageProcessor()
+        {
+            _logQueue = new Queue<string>();
+        }
+
+        public void ProcessLogMessage(string condition, string stackTrace, LogType type)
+        {
+            string message = ParseMessage(condition, stackTrace, type);
+            EnqueueMessage(message);
+            TrimLogQueueToMaxAllowedMessages();
+        }
+
+        private string ParseMessage(string condition, string stackTrace, LogType type)
+        {
+            return $"[{type}] {condition} \n {stackTrace}";
+        }
+
+        private void EnqueueMessage(string message)
+        {
+            _logQueue.Enqueue(message);
+        }
+
+        private void TrimLogQueueToMaxAllowedMessages()
+        {
+            while (_logQueue.Count > MAX_ALLOWED_LOG_MESSAGES)
+            {
+                _logQueue.Dequeue();
+            }
+        }
+    }
+
+
+
 }
 
