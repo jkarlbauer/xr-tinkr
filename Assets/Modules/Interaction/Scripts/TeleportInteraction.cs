@@ -1,9 +1,7 @@
 using UnityEngine;
 using Oculus.Interaction;
 using Xrtinkr.Utils;
-using Oculus.Interaction.Input;
 using System;
-using static UnityEngine.UI.Image;
 
 namespace Xrtinkr.Interaction
 {
