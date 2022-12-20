@@ -26,8 +26,8 @@ namespace Xrtinkr.Debug
         }
         private void UpdateRotation()
         {
-            Vector3 _headToHereDirection = transform.position - _head.transform.position;
-            transform.forward = Vector3.Lerp(transform.forward, _headToHereDirection, 0.08f);
+            Vector3 _fromHead = transform.position - _head.transform.position;
+            transform.forward = Vector3.Lerp(transform.forward, _fromHead, 0.08f);
         }
 
     }
