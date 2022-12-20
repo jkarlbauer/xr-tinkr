@@ -1,31 +1,15 @@
+
 using UnityEngine;
-using Oculus.Interaction;
 
 namespace Xrtinkr.Interaction
 {
-    [RequireComponent(typeof(IInteractor))]
-    public class TogglePassthroughInteraction : MonoBehaviour
+    public class TogglePassthrough : MonoBehaviour
     {
+
         [SerializeField]
         private OVRPassthroughLayer _passthroughLayer;
 
-        private IInteractor _interactor;
-
-        private void OnEnable()
-        {
-            _interactor = GetComponent<IInteractor>();
-            _interactor.WhenStateChanged += ProcessState;
-        }
-
-        private void ProcessState(InteractorStateChangeArgs obj)
-        { 
-            if(obj.NewState == InteractorState.Select)
-            {
-                TogglePassthroughState();
-            }
-        }
-
-        private void TogglePassthroughState()
+        public void TogglePassthroughState()
         {
             if (_passthroughLayer.enabled)
             {
@@ -50,9 +34,7 @@ namespace Xrtinkr.Interaction
             UnityEngine.Debug.Log("disabled passthrough");
 
         }
-
-
-
     }
 }
+
 
