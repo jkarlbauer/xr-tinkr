@@ -41,13 +41,13 @@ namespace Xrtinkr.Interaction
         {
 
             _passthroughLayer.enabled = true;
-            Debug.Log("enabled passthrough");
+            UnityEngine.Debug.Log("enabled passthrough");
         }
 
         private void DisablePassthrough()
         {
             _passthroughLayer.enabled = false;
-            Debug.Log("disabled passthrough");
+            UnityEngine.Debug.Log("disabled passthrough");
 
         }
 

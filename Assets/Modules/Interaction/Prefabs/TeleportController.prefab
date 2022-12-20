@@ -632,7 +632,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9b712f624882fdd4b97841d5d9e96419, type: 2}
+  - {fileID: 2100000, guid: bf80993ab4cb98446a34f86a51ab28c0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -725,6 +725,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _teleportInteraction: {fileID: 8830248210709368318}
   _lineRendererLength: 1
+  _activeMaterial: {fileID: 2100000, guid: f57f3975e407d4640871fcca32bfcf2d, type: 2}
+  _inactiveMaterial: {fileID: 2100000, guid: bf80993ab4cb98446a34f86a51ab28c0, type: 2}
 --- !u!1 &8830248212398458804
 GameObject:
   m_ObjectHideFlags: 0

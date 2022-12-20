@@ -2,6 +2,7 @@ using UnityEngine;
 using Oculus.Interaction;
 using Xrtinkr.Utils;
 using System;
+using Xrtinkr.Debug;
 
 namespace Xrtinkr.Interaction
 {
@@ -27,6 +28,8 @@ namespace Xrtinkr.Interaction
 
         public event Action PinchStarted;
         public event Action PinchEnded;
+
+        private bool _interactionIsValid;
 
         private RaycastHit _currentRaycastHit;
         public RaycastHit CurrentRaycastHit { get => _currentRaycastHit; }
@@ -61,25 +64,34 @@ namespace Xrtinkr.Interaction
 
         private void Update()
         {
-            Vector3 _orign = _rayOrigin.transform.position;
-            Quaternion _rotation = _rayOrigin.transform.rotation;
-            Vector3 _forward = _rotation * Vector3.forward;
+            Vector3 origin = _rayOrigin.transform.position;
+            Quaternion rotation = _rayOrigin.transform.rotation;
+            Vector3 forward = rotation * Vector3.forward;
 
             RaycastHit hit;
 
             if (Physics.Raycast(
-                _orign,
-                _forward,
+                origin,
+                forward,
                 out hit,
                 Mathf.Infinity,
                 LayerMask.GetMask("TeleportTarget")))
             {
                 _currentRaycastHit = hit;
+                _interactionIsValid = true;
+            } else {
+                _interactionIsValid = false;
             }
         }
 
 
-        private void Teleport() => _teleportTarget.transform.position = CurrentRaycastHit.point;
+        private void Teleport()
+        {
+            if (_interactionIsValid)
+            {
+                _teleportTarget.transform.position = CurrentRaycastHit.point;
+            }
+        } 
 
         public Vector3 GetRayOrigin() => _rayOrigin.position;
 
