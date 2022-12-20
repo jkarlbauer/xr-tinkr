@@ -26,7 +26,6 @@ namespace Xrtinkr.Interaction
         
             if(obj.NewState == InteractableState.Select)
             {
-                UnityEngine.Debug.Log("Button Pressed");
                 OnButtonSelect.Invoke();
             }
 
