@@ -25,11 +25,10 @@ namespace Xrtinkr.Interaction
 
         private Timer _timer;
 
-        public event Action PinchStarted;
-        public event Action PinchEnded;
-        public event Action InputWentToInvalid;
-        public event Action InputWentToValid;
-
+        public event Action InteractionStarted;
+        public event Action InteractionEnded;
+        public event Action InteractionWentToInvalid;
+        public event Action InteractionWentToValid;
 
         private bool _interactionIsValid;
 
@@ -41,10 +40,16 @@ namespace Xrtinkr.Interaction
         {
             _pinchSelector.WhenSelected += HandlePinchStarted;
             _pinchSelector.WhenUnselected += HandlePinchEnded;
+            InteractionWentToInvalid += HandleInterrupt;
 
             _timer = new Timer();
             _currentRaycastHit = new RaycastHit();
+        }
 
+        private void HandleInterrupt()
+        {
+            InteractionEnded.Invoke();
+            ResetTimer();
         }
 
         private void HandlePinchStarted()
@@ -55,7 +60,7 @@ namespace Xrtinkr.Interaction
             }
 
             _timer.StartTimer();
-            PinchStarted?.Invoke();
+            InteractionStarted?.Invoke();
         }
 
         protected void HandlePinchEnded()
@@ -66,14 +71,14 @@ namespace Xrtinkr.Interaction
                 return;
             }
 
-            PinchEnded?.Invoke();
+            InteractionEnded?.Invoke();
 
             if(GetCurrentPinchingDuration() >= _dwellTime)
             {
                 Teleport();
             }
 
-            _timer.ResetTimer();
+            ResetTimer();
         }
 
         private void Update()
@@ -95,7 +100,7 @@ namespace Xrtinkr.Interaction
 
                 if (!_interactionIsValid)
                 {
-                    InputWentToValid.Invoke();
+                    InteractionWentToValid.Invoke();
                 }
 
                 _interactionIsValid = true;
@@ -103,7 +108,7 @@ namespace Xrtinkr.Interaction
 
                 if (_interactionIsValid)
                 {
-                    InputWentToInvalid.Invoke();
+                    InteractionWentToInvalid.Invoke();
                 }
 
                 _interactionIsValid = false;
@@ -122,6 +127,8 @@ namespace Xrtinkr.Interaction
         public Vector3 GetRayOrigin() => _rayOrigin.position;
 
         public float GetCurrentPinchingDuration() => _timer.ElapsedTimeSinceStart;
+
+        private void ResetTimer() => _timer.ResetTimer();
 
 
 

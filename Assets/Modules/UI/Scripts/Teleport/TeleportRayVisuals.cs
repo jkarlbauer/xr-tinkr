@@ -24,39 +24,39 @@ namespace Xrtinkr.UI.Teleport
         private void OnEnable()
         {
             _lineRenderer = GetComponent<LineRenderer>();
-            _teleportInteraction.PinchStarted += OnPinchStarted;
-            _teleportInteraction.PinchEnded += OnPinchEnded;
-            _teleportInteraction.InputWentToValid += OnInputWentToValid;
-            _teleportInteraction.InputWentToInvalid += OnInputWentToInvalid;
+            _teleportInteraction.InteractionStarted += OnInteractionStarted;
+            _teleportInteraction.InteractionEnded += OnInteractionEnded;
+            _teleportInteraction.InteractionWentToValid += OnInteractionWentToInvalid;
+            _teleportInteraction.InteractionWentToInvalid += OnInteractionWentToValid;
 
             Hide();
         }
 
         private void OnDisable()
         {
-            _teleportInteraction.PinchStarted -= OnPinchStarted;
-            _teleportInteraction.PinchEnded -= OnPinchEnded;
+            _teleportInteraction.InteractionStarted -= OnInteractionStarted;
+            _teleportInteraction.InteractionEnded -= OnInteractionEnded;
 
             Hide();
         }
 
 
-        private void OnPinchStarted()
+        private void OnInteractionStarted()
         {
             Show();
         }
 
-        private void OnPinchEnded()
+        private void OnInteractionEnded()
         {
             Hide();
         }
 
-        private void OnInputWentToInvalid()
+        private void OnInteractionWentToValid()
         {
             _lineRenderer.enabled = false;
         }
 
-        private void OnInputWentToValid()
+        private void OnInteractionWentToInvalid()
         {
             _lineRenderer.enabled = true;
         }

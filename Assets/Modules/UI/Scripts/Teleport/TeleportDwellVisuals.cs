@@ -17,23 +17,23 @@ namespace Xrtinkr.UI.Teleport
         private void OnEnable()
         {
             _dwellImage = GetComponentInChildren<Image>();
-            _teleportInteraction.PinchStarted += OnPinchStarted;
-            _teleportInteraction.PinchEnded += OnPinchEnded;
+            _teleportInteraction.InteractionStarted += OnInteractionStarted;
+            _teleportInteraction.InteractionEnded += OnInteractionEnded;
             Hide();
         }
 
         private void OnDisable()
         {
-            _teleportInteraction.PinchStarted -= OnPinchStarted;
-            _teleportInteraction.PinchEnded -= OnPinchEnded;
+            _teleportInteraction.InteractionStarted -= OnInteractionStarted;
+            _teleportInteraction.InteractionEnded -= OnInteractionEnded;
             Hide();
         }
-        private void OnPinchStarted()
+        private void OnInteractionStarted()
         {
             Show();
         }
 
-        private void OnPinchEnded()
+        private void OnInteractionEnded()
         {
             Hide();
         }
@@ -47,7 +47,6 @@ namespace Xrtinkr.UI.Teleport
             UpdatePosition();
             SetDwellFill(_teleportInteraction.GetCurrentPinchingDuration());
         }
-
 
         public void SetDwellFill(float amount)
         {

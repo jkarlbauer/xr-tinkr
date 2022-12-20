@@ -11,15 +11,15 @@ namespace Xrtinkr.UI.Teleport
         private void OnEnable()
         {
 
-            _teleportInteraction.PinchStarted += OnPinchStarted;
-            _teleportInteraction.PinchEnded += OnPinchEnded;
+            _teleportInteraction.InteractionStarted += OnPinchStarted;
+            _teleportInteraction.InteractionEnded += OnPinchEnded;
             Hide();
         }
 
         private void OnDisable()
         {
-            _teleportInteraction.PinchStarted -= OnPinchStarted;
-            _teleportInteraction.PinchEnded -= OnPinchEnded;
+            _teleportInteraction.InteractionStarted -= OnPinchStarted;
+            _teleportInteraction.InteractionEnded -= OnPinchEnded;
 
             Hide();
         }
