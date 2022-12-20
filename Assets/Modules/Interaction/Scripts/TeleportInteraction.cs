@@ -2,7 +2,6 @@ using UnityEngine;
 using Oculus.Interaction;
 using Xrtinkr.Utils;
 using System;
-using Xrtinkr.Debug;
 
 namespace Xrtinkr.Interaction
 {
