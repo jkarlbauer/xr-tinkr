@@ -26,6 +26,8 @@ namespace Xrtinkr.UI.Teleport
             _lineRenderer = GetComponent<LineRenderer>();
             _teleportInteraction.PinchStarted += OnPinchStarted;
             _teleportInteraction.PinchEnded += OnPinchEnded;
+            _teleportInteraction.InputWentToValid += OnInputWentToValid;
+            _teleportInteraction.InputWentToInvalid += OnInputWentToInvalid;
 
             Hide();
         }
@@ -49,18 +51,27 @@ namespace Xrtinkr.UI.Teleport
             Hide();
         }
 
+        private void OnInputWentToInvalid()
+        {
+            _lineRenderer.enabled = false;
+        }
+
+        private void OnInputWentToValid()
+        {
+            _lineRenderer.enabled = true;
+        }
+
         private void Show()
         {
-            //_lineRenderer.enabled = true;
             _lineRenderer.material = _activeMaterial;
-           
+ 
         }
 
         private void Hide()
         {
-            //_lineRenderer.enabled = false;
             _lineRenderer.material = _inactiveMaterial;
         }
+
 
         void Update()
         {

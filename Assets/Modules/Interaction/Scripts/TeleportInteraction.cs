@@ -27,11 +27,15 @@ namespace Xrtinkr.Interaction
 
         public event Action PinchStarted;
         public event Action PinchEnded;
+        public event Action InputWentToInvalid;
+        public event Action InputWentToValid;
+
 
         private bool _interactionIsValid;
 
         private RaycastHit _currentRaycastHit;
         public RaycastHit CurrentRaycastHit { get => _currentRaycastHit; }
+        public bool InteractionIsValid { get => _interactionIsValid;}
 
         private void OnEnable()
         {
@@ -45,12 +49,23 @@ namespace Xrtinkr.Interaction
 
         private void HandlePinchStarted()
         {
+            if (!_interactionIsValid)
+            {
+                return;
+            }
+
             _timer.StartTimer();
             PinchStarted?.Invoke();
         }
 
         protected void HandlePinchEnded()
         {
+
+            if (!_interactionIsValid)
+            {
+                return;
+            }
+
             PinchEnded?.Invoke();
 
             if(GetCurrentPinchingDuration() >= _dwellTime)
@@ -77,8 +92,20 @@ namespace Xrtinkr.Interaction
                 LayerMask.GetMask("TeleportTarget")))
             {
                 _currentRaycastHit = hit;
+
+                if (!_interactionIsValid)
+                {
+                    InputWentToValid.Invoke();
+                }
+
                 _interactionIsValid = true;
             } else {
+
+                if (_interactionIsValid)
+                {
+                    InputWentToInvalid.Invoke();
+                }
+
                 _interactionIsValid = false;
             }
         }
@@ -86,7 +113,7 @@ namespace Xrtinkr.Interaction
 
         private void Teleport()
         {
-            if (_interactionIsValid)
+            if (InteractionIsValid)
             {
                 _teleportTarget.transform.position = CurrentRaycastHit.point;
             }

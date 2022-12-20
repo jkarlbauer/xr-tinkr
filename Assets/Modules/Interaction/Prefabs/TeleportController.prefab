@@ -727,6 +727,8 @@ MonoBehaviour:
   _lineRendererLength: 1
   _activeMaterial: {fileID: 2100000, guid: f57f3975e407d4640871fcca32bfcf2d, type: 2}
   _inactiveMaterial: {fileID: 2100000, guid: bf80993ab4cb98446a34f86a51ab28c0, type: 2}
+  _invalidInactiveMaterial: {fileID: 2100000, guid: 28c3040f32aa419449233990c80d1f49, type: 2}
+  _invalidActiveMaterial: {fileID: 2100000, guid: b98f44f96c46774429ff625c8da0d3c2, type: 2}
 --- !u!1 &8830248212398458804
 GameObject:
   m_ObjectHideFlags: 0
