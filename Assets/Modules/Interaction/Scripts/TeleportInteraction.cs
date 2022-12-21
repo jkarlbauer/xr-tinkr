@@ -122,6 +122,8 @@ namespace Xrtinkr.Interaction
             {
                 _teleportTarget.transform.position = CurrentRaycastHit.point;
             }
+
+            DisableController();
         } 
 
         public Vector3 GetRayOrigin() => _rayOrigin.position;
@@ -129,6 +131,8 @@ namespace Xrtinkr.Interaction
         public float GetCurrentPinchingDuration() => _timer.ElapsedTimeSinceStart;
 
         private void ResetTimer() => _timer.ResetTimer();
+
+        private void DisableController() => gameObject.SetActive(false);
 
 
 
