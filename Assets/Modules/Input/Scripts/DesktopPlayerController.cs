@@ -45,7 +45,7 @@ namespace Xrtinkr.Input
         [SerializeField]
         private float _lookSpeed;
 
-        private float sprintFactor = 3;
+        private float _sprintSpeed = 3;
 
         private void Awake()
         {
@@ -58,14 +58,21 @@ namespace Xrtinkr.Input
 
         private void EnableActions()
         {
-            forward.action.Enable();
-            backward.action.Enable();
-            left.action.Enable();
-            right.action.Enable();
-            up.action.Enable();
-            down.action.Enable();
-            look.action.Enable();
-            sprint.action.Enable();
+            InputActionReference[] actionReferences = new InputActionReference[] { 
+                forward,
+                backward,
+                left,
+                right,
+                up,
+                down,
+                look,
+                sprint
+            };
+
+            foreach(InputActionReference actionReference in actionReferences)
+            {
+                actionReference.action.Enable();
+            }
         }
 
         private void RegisterActionCallbacks()
@@ -108,9 +115,9 @@ namespace Xrtinkr.Input
             }        
         }
 
-        private void OnStartSprint(InputAction.CallbackContext obj) => _walkSpeed *= sprintFactor;
+        private void OnStartSprint(InputAction.CallbackContext obj) => _walkSpeed *= _sprintSpeed;
 
-        private void OnEndSprint(InputAction.CallbackContext obj) => _walkSpeed /= sprintFactor;
+        private void OnEndSprint(InputAction.CallbackContext obj) => _walkSpeed /= _sprintSpeed;
 
         private void OnLook(InputAction.CallbackContext obj)
         {
