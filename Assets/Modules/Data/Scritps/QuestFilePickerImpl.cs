@@ -1,4 +1,5 @@
 
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Xrtinkr.Data
@@ -12,18 +13,22 @@ namespace Xrtinkr.Data
             _mainDirectoryPath = Application.persistentDataPath;
         }
 
-        public string PickFile(string optionalFileName)
+        public async Task<string> PickFileAsync(string optionalFileName)
         {
+            TaskCompletionSource<string> taskObject = new TaskCompletionSource<string>();
+
             FilePicker filePicker = new FilePicker(_mainDirectoryPath);
 
             if(optionalFileName == null || optionalFileName == "")
             {
-                return filePicker.PickFileFromOrder();
+                taskObject.SetResult(filePicker.PickFileFromOrder());
             }
             else
             {
-                return filePicker.PickFileFromName(optionalFileName);
+                taskObject.SetResult(filePicker.PickFileFromName(optionalFileName));
             }
+
+            return await taskObject.Task;
         }
 
     }

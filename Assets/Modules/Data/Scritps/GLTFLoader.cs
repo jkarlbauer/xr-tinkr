@@ -3,6 +3,7 @@ using UnityEngine;
 using Siccity.GLTFUtility;
 using Xrtinkr.System;
 using System;
+using System.Threading.Tasks;
 
 namespace Xrtinkr.Data
 {
@@ -12,7 +13,7 @@ namespace Xrtinkr.Data
         private string optionalFileName = null;
 
         private IFilePickerImpl _filePicker;
-        private void OnEnable()
+        private async void OnEnable()
         {
             
 
@@ -27,17 +28,17 @@ namespace Xrtinkr.Data
             }
 
 
-            string _filepath = TryPickFile();
+            string _filepath = await TryPickFile();
             TryImportGLTF(_filepath);
         }
 
-        private string TryPickFile()
+        private async Task<string> TryPickFile()
         {
             string path = "";
 
             try
             {
-                path = _filePicker.PickFile(optionalFileName);
+                path = await _filePicker.PickFileAsync(optionalFileName);
 
             }catch(Exception e)
             {

@@ -1,8 +1,10 @@
+using System.Threading.Tasks;
+
 namespace Xrtinkr.Data
 {
     public interface IFilePickerImpl
     {
-        public string PickFile(string optionalFileName);
+        public Task<string> PickFileAsync(string optionalFileName);
 
     }
 }

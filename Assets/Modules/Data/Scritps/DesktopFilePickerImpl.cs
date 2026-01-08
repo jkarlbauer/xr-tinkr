@@ -1,24 +1,31 @@
 
+using System.Threading.Tasks;
+
 namespace Xrtinkr.Data
 {
     public class DesktopFilePickerImpl : IFilePickerImpl
     {
         string mainDirectoryPath = "./";
+        string glbFileType = NativeFilePicker.ConvertExtensionToFileType( ".glb" );
 
-        public string PickFile(string optionalFileName)
+        public async Task<string> PickFileAsync(string optionalFileName)
         {
-            FilePicker filePicker = new FilePicker(mainDirectoryPath);
+            TaskCompletionSource<string> taskObject = new TaskCompletionSource<string>();
 
-            if (optionalFileName == null || optionalFileName == "")
-            {
-                return filePicker.PickFileFromOrder();
-            }
-            else
-            {
-                return filePicker.PickFileFromName(optionalFileName);
-            }
-        }
-     
+            NativeFilePicker.PickFile((path) => {
+                if (string.IsNullOrEmpty(path))
+                {
+                    taskObject.SetResult(null);
+                }
+                else
+                {
+                    taskObject.SetResult(path);
+                }
+
+            }, new string[] { glbFileType });
+
+            return await taskObject.Task;
+        }    
     }
 }
 
